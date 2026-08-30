@@ -69,7 +69,7 @@ def main() -> None:
 
     client = ConvexClient(cli_args.url)
 
-    benchmarks = [
+    benchmarks: list[tuple[str, dict[str, Any]]] = [
         ("retention:getRetentionOverview", {}),
         ("diagnostics:getTableMetrics", {}),
         ("diagnostics:auditRelationalIntegrity", {"limit": 50}),
