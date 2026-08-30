@@ -91,7 +91,9 @@ export default defineSchema({
     createdAt: v.number(),
   })
     .index("by_repository_sha", ["repositoryId", "sha"])
-    .index("by_repository_created_at", ["repositoryId", "createdAt"]),
+    .index("by_repository_created_at", ["repositoryId", "createdAt"])
+    .index("by_repository_status", ["repositoryId", "status"])
+    .index("by_repository_committed_at", ["repositoryId", "committedAt"]),
 
   commitAnalyses: defineTable({
     commitId: v.id("commits"),
@@ -147,7 +149,9 @@ export default defineSchema({
     detectedAt: v.number(),
   })
     .index("by_user", ["userId"])
-    .index("by_repository", ["repositoryId"]),
+    .index("by_user_status", ["userId", "status"])
+    .index("by_repository", ["repositoryId"])
+    .index("by_repository_status", ["repositoryId", "status"]),
 
   posts: defineTable({
     userId: v.id("users"),
@@ -169,6 +173,8 @@ export default defineSchema({
     createdAt: v.number(),
   })
     .index("by_user", ["userId"])
+    .index("by_user_status", ["userId", "status"])
+    .index("by_user_created_at", ["userId", "createdAt"])
     .index("by_story", ["storyId"]),
 
   postVersions: defineTable({
@@ -226,6 +232,8 @@ export default defineSchema({
     resolvedAt: v.optional(v.number()),
   })
     .index("by_user", ["userId"])
+    .index("by_user_status", ["userId", "status"])
+    .index("by_user_created_at", ["userId", "createdAt"])
     .index("by_phone_status", ["recipientPhone", "status"])
     .index("by_post", ["postId"]),
 
@@ -238,7 +246,8 @@ export default defineSchema({
     expiresAt: v.number(),
   })
     .index("by_phone", ["phone"])
-    .index("by_user", ["userId"]),
+    .index("by_user", ["userId"])
+    .index("by_expires_at", ["expiresAt"]),
 
   approvalMessages: defineTable({
     approvalRequestId: v.id("approvalRequests"),
@@ -291,7 +300,10 @@ export default defineSchema({
     ),
     metadata: v.optional(v.any()),
     timestamp: v.number(),
-  }).index("by_user_timestamp", ["userId", "timestamp"]),
+  })
+    .index("by_user_timestamp", ["userId", "timestamp"])
+    .index("by_user_status", ["userId", "status"])
+    .index("by_timestamp", ["timestamp"]),
 
   userPreferences: defineTable({
     userId: v.id("users"),
